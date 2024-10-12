@@ -4,18 +4,27 @@ import {useEffect, useState} from "react";
 const tg = window.Telegram.WebApp;
 const Home = () => {
     const [data, setData] = useState('');
+    const [userId, setUserId] = useState('');
+    const [username, setUsername] = useState('');
 
-    function handleClick(){
+    useEffect(() => {
+        const user = tg.initDataUnsafe.user;
+        if (user){
+            setUserId(user.id);
+            setUsername(user.username);
+        }
         setData(tg.initDataUnsafe.user.username);
         console.log(tg.initDataUnsafe.user);
-    }
+    }, [])
 
     return (
         <div className={styles.container}>
             <p className={styles.container_title}>Welcome to robots world</p>
             <h1>Авторизація через Telegram</h1>
-            <button onClick={handleClick}>Click</button>
+            {/*<button onClick={handleClick}>Click</button>*/}
             <h1>Username: ${data}</h1>
+            <h1>Username: ${username}</h1>
+            <h1>Username: ${userId}</h1>
             {/*<script async src="https://telegram.org/js/telegram-widget.js?7"*/}
             {/*        data-telegram-login="RobotsWorldBot"*/}
             {/*        data-size="large"*/}
