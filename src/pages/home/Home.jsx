@@ -6,9 +6,10 @@ const Home = () => {
     const [data, setData] = useState('');
     const [userId, setUserId] = useState('');
     const [username, setUsername] = useState('');
+    let user = ''
 
     useEffect(() => {
-        const user = tg.initDataUnsafe.user;
+        user = tg.initDataUnsafe.user;
         if (user){
             setUserId(user.id);
             setUsername(user.username);
