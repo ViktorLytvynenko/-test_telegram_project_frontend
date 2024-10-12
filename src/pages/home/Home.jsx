@@ -5,15 +5,16 @@ const tg = window.Telegram.WebApp;
 const Home = () => {
     const [data, setData] = useState('');
 
-    useEffect(() => {
-        setData(tg.initDataUnsafe.data.username);
-        console.log(tg.initDataUnsafe)
-    }, []);
+    function handleClick(){
+        setData(tg.initDataUnsafe.user.username);
+        console.log(tg.initDataUnsafe.user);
+    }
 
     return (
         <div className={styles.container}>
             <p className={styles.container_title}>Welcome to robots world</p>
             <h1>Авторизація через Telegram</h1>
+            <button onClick={handleClick}>Click</button>
             <h1>Username: ${data}</h1>
             {/*<script async src="https://telegram.org/js/telegram-widget.js?7"*/}
             {/*        data-telegram-login="RobotsWorldBot"*/}
