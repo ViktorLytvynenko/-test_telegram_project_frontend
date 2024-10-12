@@ -2,6 +2,7 @@ import styles from "./home.module.scss"
 import {useEffect, useState} from "react";
 
 const tg = window.Telegram.WebApp;
+
 const Home = () => {
     const [data, setData] = useState('');
     const [userId, setUserId] = useState('');
@@ -9,6 +10,7 @@ const Home = () => {
     let user = ''
 
     useEffect(() => {
+        tg.ready()
         user = tg.initDataUnsafe.user;
         if (user){
             setUserId(user.id);
