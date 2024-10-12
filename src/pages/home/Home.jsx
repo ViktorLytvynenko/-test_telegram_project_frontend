@@ -1,23 +1,25 @@
 import styles from "./home.module.scss";
 import { useEffect, useState } from "react";
 
-const tg = window.Telegram?.WebApp;
-
 const Home = () => {
     const [data, setData] = useState('');
     const [userId, setUserId] = useState('');
     const [username, setUsername] = useState('');
 
     useEffect(() => {
+        const tg = window.Telegram?.WebApp;
+
         if (tg) {
-            tg.ready();
+            tg.ready(); // Ensure Telegram WebApp is initialized
+
             const user = tg.initDataUnsafe?.user;
             if (user) {
                 setUserId(user.id);
-                setUsername(user.username);
-                setData(user.username);
+                setUsername(user.username || "No username");
+                setData(user.first_name || "Anonymous");
             }
-            console.log(user);
+
+            console.log(user); // Debugging
         }
     }, []);
 
