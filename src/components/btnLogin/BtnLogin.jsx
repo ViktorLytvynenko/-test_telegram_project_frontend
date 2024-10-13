@@ -14,9 +14,11 @@ const BtnLogin = () => {
                 auth_date: user.auth_date,
                 hash: user.hash
             }).then(() => {
+                const userId = user.id.toString()
+                localStorage.setItem("id", userId)
                 navigate('/profile');
             }).catch(error => {
-                console.error("Ошибка аутентификации:", error);
+                console.error("Error:", error);
             });
         };
 
