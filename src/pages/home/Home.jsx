@@ -2,6 +2,7 @@ import styles from "./home.module.scss"
 import {useEffect, useState} from "react";
 import axios from "axios";
 import BtnLogin from "../../components/btnLogin/btnLogin.jsx";
+import TelegramLogin from "../../components/TelegramLogin.jsx";
 
 
 const Home = () => {
