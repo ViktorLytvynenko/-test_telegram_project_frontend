@@ -4,14 +4,40 @@ import styles from "../home/home.module.scss";
 
 const Profile = () => {
     const id = localStorage.getItem('id');
-    const [user, setUser] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [telegramId, setTelegramId] = useState(null);
+    const [firstName, setFirstName] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [authDate, setAuthDate] = useState(null);
+    const [hash, setHash] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState(null);
+    const [createDate, setCreateDate] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUser = async () => {
+            if (!id) {
+                setError(new Error("User ID is not found in local storage."));
+                return;
+            }
+
             try {
                 const response = await instance.get(`user/${id}`);
-                setUser(response.data);
+                if (!response.data) {
+                    console.log("User data not found.")
+                }
+
+                const userData = response.data;
+
+                setUserId(userData.id);
+                setTelegramId(userData.telegram_id);
+                setFirstName(userData.first_name);
+                setUsername(userData.username);
+                setAuthDate(userData.auth_date);
+                setHash(userData.hash);
+                setPhoneNumber(userData.phone_number);
+                setCreateDate(userData.create_date);
+
             } catch (error) {
                 setError(error);
             }
@@ -20,50 +46,53 @@ const Profile = () => {
         fetchUser();
     }, [id]);
 
-    if (!user) {
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    if (userId === null) {
         return <div>Loading...</div>;
     }
 
     return (
         <div className={styles.container}>
             <div className={styles.container_c1}>
-            {error && <div>Error: {error.message}</div>}
-            <table>
-                <tbody>
-                <tr>
-                    <th>ID</th>
-                    <td>{user.id}</td>
-                </tr>
-                <tr>
-                    <th>Telegram ID</th>
-                    <td>{user.telegram_id}</td>
-                </tr>
-                <tr>
-                    <th>First Name</th>
-                    <td>{user.first_name}</td>
-                </tr>
-                <tr>
-                    <th>Username</th>
-                    <td>{user.username}</td>
-                </tr>
-                <tr>
-                    <th>Auth Date</th>
-                    <td>{user.auth_date ? new Date(user.auth_date).toLocaleString() : 'N/A'}</td>
-                </tr>
-                <tr>
-                    <th>Hash</th>
-                    <td>{user.hash}</td>
-                </tr>
-                <tr>
-                    <th>Phone Number</th>
-                    <td>{user.phone_number}</td>
-                </tr>
-                <tr>
-                    <th>Create Date</th>
-                    <td>{new Date(user.create_date).toLocaleString()}</td>
-                </tr>
-                </tbody>
-            </table>
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{userId}</td>
+                    </tr>
+                    <tr>
+                        <th>Telegram ID</th>
+                        <td>{telegramId}</td>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <td>{firstName}</td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>{username}</td>
+                    </tr>
+                    <tr>
+                        <th>Auth Date</th>
+                        <td>{authDate ? new Date(authDate).toLocaleString() : 'N/A'}</td>
+                    </tr>
+                    <tr>
+                        <th>Hash</th>
+                        <td>{hash}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <td>{phoneNumber}</td>
+                    </tr>
+                    <tr>
+                        <th>Create Date</th>
+                        <td>{new Date(createDate).toLocaleString()}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     );
