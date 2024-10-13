@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import instance from "../../assets/instance.js";
+import styles from "../home/home.module.scss";
 
 const Profile = () => {
     const id = localStorage.getItem('id');
@@ -24,7 +25,8 @@ const Profile = () => {
     }
 
     return (
-        <>
+        <div className={styles.container}>
+            <div className={styles.container_c1}>
             {error && <div>Error: {error.message}</div>}
             <table>
                 <tbody>
@@ -62,7 +64,8 @@ const Profile = () => {
                 </tr>
                 </tbody>
             </table>
-        </>
+            </div>
+        </div>
     );
 };
 
