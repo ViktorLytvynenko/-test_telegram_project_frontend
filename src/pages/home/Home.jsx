@@ -42,6 +42,9 @@ const Home = () => {
                     Open Telegram Bot
                 </button>
             </div>
+
+            <h1>Login with Telegram</h1>
+            <TelegramLogin/>
         </div>
     )
 }
