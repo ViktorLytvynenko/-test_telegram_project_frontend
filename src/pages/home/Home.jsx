@@ -1,14 +1,22 @@
 import styles from "./home.module.scss"
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 
 const Home = () => {
     const tg = window.Telegram.WebApp;
     const [username, setUsername] = useState('');
+
+    const test = () => {
+        axios.post("https://oauth.telegram.org/auth?bot_id=547043436&origin=https%3A%2F%2Fcore.telegram.org&embed=1&request_access=write&return_to=https%3A%2F%2Fcore.telegram.org%2Fwidgets%2Flogin",
+            {})
+    }
+
     useEffect(() => {
         tg.ready();
         const user = tg.initDataUnsafe?.user;
         if (user && user.username) {
+            // post request
             setUsername(user.username);
         } else {
             setUsername("Guest");
@@ -18,6 +26,8 @@ const Home = () => {
     return (
         <div className={styles.container}>
             {username}
+            <a href='https://oauth.telegram.org/auth?bot_id=547043436&origin=https%3A%2F%2Fcore.telegram.org&embed=1&request_access=write&return_to=https%3A%2F%2Fcore.telegram.org%2Fwidgets%2Flogin'>test</a>
+            <button onClick={() => test()}/>
         </div>
     )
 }
