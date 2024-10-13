@@ -20,8 +20,10 @@
       text-align: center;
     }
     &_btn {
-      padding-top: 15px;
-      background-color: blue;
+      margin-top: 15px;
+      background-color: transparent;
+      color: blue;
+      cursor: pointer;
     }
     &_body {
       padding-top: 15px;
