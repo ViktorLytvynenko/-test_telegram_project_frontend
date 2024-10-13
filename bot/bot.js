@@ -6,7 +6,7 @@ const bot = new Telegraf(API_KEY);
 bot.start((ctx) => {
     const webAppButton = {
         text: 'Open Web App',
-        web_app: {url: 'https://test-telegram-project-frontend.vercel.app//'}
+        web_app: {url: 'https://test-telegram-project-frontend.vercel.app/'}
     };
 
     const keyboard = {
