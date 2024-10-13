@@ -6,7 +6,11 @@ const BtnLogin = () => {
         window.onTelegramAuth = (user) => {
             console.log(user)
             instance.post('/data', {
-                user
+                id: user.id,
+                first_name: user.first_name,
+                username: user.username,
+                authDate: user.authDate,
+                userData: user.userData
             })
         };
 
