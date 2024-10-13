@@ -3,9 +3,10 @@ import {useEffect} from 'react';
 const BtnLogin = () => {
     useEffect(() => {
         window.onTelegramAuth = (user) => {
+            console.log(user)
             alert(
                 `Logged in as ${user.first_name} ${user.last_name} (ID: ${user.id}${
-                    user.username ? `, @${user.username}` : ''
+                    user.username ? `, @${user.username}, ${user}` : ''
                 })`
             );
         };
