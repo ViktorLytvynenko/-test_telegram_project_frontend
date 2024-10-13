@@ -16,7 +16,7 @@ const Home = () => {
                 {id ? (
                     <>
                         <p className={styles.container_c1_title}>Welcome back!</p>
-                        <button onClick={handleUserPage}>Go to Profile</button>
+                        <button onClick={handleUserPage} className={styles.container_c1_btn}>Go to Profile</button>
                     </>
                 ) : (
                     <div className={styles.container_c1}>
