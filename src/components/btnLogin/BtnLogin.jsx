@@ -1,14 +1,13 @@
 import {useEffect} from 'react';
+import instance from "../../assets/instance.js";
 
 const BtnLogin = () => {
     useEffect(() => {
         window.onTelegramAuth = (user) => {
             console.log(user)
-            alert(
-                `Logged in as ${user.first_name} ${user.last_name} (ID: ${user.id}${
-                    user.username ? `, @${user.username}, ${user}` : ''
-                })`
-            );
+            instance.post('/data', {
+                user
+            })
         };
 
         const script = document.createElement('script');
