@@ -1,19 +1,20 @@
 import {useEffect} from "react";
+import instance from "../../assets/instance.js";
 
 const Profile = () => {
+    const id = localStorage.getItem('id');
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:9000/api/users/${userId}`); // Замените на ваш URL API
-                setUser(response.data);
+                const response = await instance.get(`user/${id}`)
+                setUser(response.data)
             } catch (error) {
-                setError('Ошибка при получении данных пользователя');
-                console.error('Ошибка:', error);
+                setError(error)
             }
         };
 
-        fetchUser();
-    }, [userId]);
+        fetchUser()
+    }, [id])
     return (
         <>
             <table>
@@ -53,7 +54,7 @@ const Profile = () => {
                 </tbody>
             </table>
         </>
-    );
+    )
 };
 
-export default Profile;
+export default Profile
