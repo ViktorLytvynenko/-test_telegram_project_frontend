@@ -9,9 +9,9 @@ const Home = () => {
             <div className={styles.container_c1}>
                 {id ? (<p className={styles.container_c1_title}>Welcome back!</p>)
                     :
-                    (<div><p className={styles.container_c1_title}>Welcome to robots world</p>
-                            <p className={styles.container_c1_body}>Join us!
-                            </p>
+                    (<div className={styles.container_c1}>
+                            <p className={styles.container_c1_title}>Welcome to robots world</p>
+                            <p className={styles.container_c1_body}>Join us!</p>
                             <BtnLogin/>
                         </div>
                     )
