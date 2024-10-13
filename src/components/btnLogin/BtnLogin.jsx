@@ -4,7 +4,8 @@ import instance from "../../assets/instance.js";
 const BtnLogin = () => {
     useEffect(() => {
         window.onTelegramAuth = (user) => {
-            console.log(user)
+            console.log(user.id)
+            console.log(user.first_name)
             instance.post('/data', {
                 id: user.id,
                 first_name: user.first_name,
