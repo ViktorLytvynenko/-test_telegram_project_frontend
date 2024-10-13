@@ -5,7 +5,7 @@ import BtnLogin from "../../components/btnLogin/BtnLogin.jsx";
 const Home = () => {
 
     return (
-        <div className={styles.container}>
+        <div>
             <p className={styles.container_title}>Welcome to robots world</p>
             <BtnLogin/>
         </div>
