@@ -11,7 +11,7 @@ const BtnLogin = () => {
                 first_name: user.first_name,
                 username: user.username,
                 authDate: user.authDate,
-                userData: user.userData
+                hash: user.hash
             })
         };
 
