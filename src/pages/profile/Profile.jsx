@@ -5,13 +5,12 @@ import {fetchUser} from "../../redux/slices/users.js";
 import styles from "../home/home.module.scss";
 
 const Profile = () => {
-    const id = localStorage.getItem('id');
     const dispatch = useDispatch();
     const { user, loading, error } = useSelector((state) => state.users);
 
     useEffect(() => {
         if (id) {
-            dispatch(fetchUser(id));
+            dispatch(fetchUser());
         }
     }, [dispatch, id]);
 

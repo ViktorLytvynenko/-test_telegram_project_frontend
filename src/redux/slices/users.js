@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import instance from "../../assets/instance.js";
 
-export const fetchUser = createAsyncThunk("users/fetchUser", async (id) => {
+export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
+    const id = localStorage.getItem('id');
+    if (!id) {
+        throw new Error("User ID not found in localStorage");
+    }
     const response = await instance.get(`user/${id}`);
     return response.data;
 });
