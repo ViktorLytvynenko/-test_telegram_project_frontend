@@ -17,8 +17,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             if (!id) {
-                setError(new Error("User ID is not found in local storage."));
-                return;
+                console.error("User ID not found in localStorage");
             }
 
             try {
