@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/slices/users.js";
-import styles from "../home/home.module.scss";
+import styles from "./profile.module.scss";
 
 const Profile = () => {
-    const dispatch = useDispatch();
-    const { user, loading, error } = useSelector((state) => state.users);
+    const dispatch = useDispatch()
+    const { user, loading, error } = useSelector((state) => state.users)
 
     useEffect(() => {
-        dispatch(fetchUser());
-    }, [dispatch]);
+        dispatch(fetchUser())
+    }, [dispatch])
 
     return (
         <div className={styles.container}>
+            <div className={styles.container_c1}>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
             {!loading && !error && (
-                <div className={styles.container_c1}>
                     <table>
                         <tbody>
                         <tr>
@@ -53,8 +53,9 @@ const Profile = () => {
                         </tr>
                         </tbody>
                     </table>
-                </div>
+
             )}
+            </div>
         </div>
     );
 };

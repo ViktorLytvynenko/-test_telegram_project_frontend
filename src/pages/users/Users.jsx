@@ -1,56 +1,57 @@
-import {useEffect, useState} from 'react';
-import instance from "../../assets/instance.js";
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchUsers} from '../../redux/slices/users';
+import styles from "./users.module.scss"
 
 const Users = () => {
-    const [users, setUsers] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [limit] = useState(10); // Set the limit for pagination
+    const dispatch = useDispatch();
+    const {userList, loading, error} = useSelector((state) => state.users);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await instance.get('/api/admin', {
-                    params: {page: currentPage, limit}
-                });
-                setUsers(response.data.users);
-                setTotalPages(response.data.totalPages);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        };
-
-        fetchUsers();
-    }, [currentPage, limit]);
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage((prevPage) => prevPage + 1);
-        }
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage((prevPage) => prevPage - 1);
-        }
-    };
+        dispatch(fetchUsers({currentPage: 1, limit: 10}))
+            .unwrap()
+    }, [dispatch]);
+    console.log(userList.users)
+    const users = Array.isArray(userList.users) ? userList.users : [];
 
     return (
-        <div>
-            <h1>User List</h1>
-            <ul>
-                {users.map((user) => (
-                    <li key={user.id}>{user.name} - {user.email}</li>
-                ))}
-            </ul>
-            <div>
-                <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-                    Previous
-                </button>
-                <span> Page {currentPage} of {totalPages} </span>
-                <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                    Next
-                </button>
+        <div className={styles.container}>
+            <div className={styles.container_c1}>
+                <p className={styles.container_c1_title}>Users</p>
+                {loading && <p>Loading users...</p>}
+                {error && <p>Error fetching users: {error}</p>}
+                {users.length === 0 ? (
+                    <p>No users found.</p>
+                ) : (
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Telegram ID</th>
+                            <th>First Name</th>
+                            <th>Username</th>
+                            <th>Auth Date</th>
+                            <th>Hash</th>
+                            <th>Phone Number</th>
+                            <th>Create Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {users.map((user) => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.telegram_id}</td>
+                                <td>{user.first_name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.auth_date}</td>
+                                <td>{user.hash}</td>
+                                <td>{user.phone_number}</td>
+                                <td>{user.create_date}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     );

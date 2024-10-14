@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import instance from "../../assets/instance.js";
 
 export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
@@ -11,9 +11,17 @@ export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
     return response.data;
 });
 
+export const fetchUsers = createAsyncThunk("users/fetchUsers", async ({currentPage, limit}) => {
+    const response = await instance.get('/admin', {
+        params: {page: currentPage, limit}
+    });
+    return response.data;
+});
+
 const usersSlice = createSlice({
     name: "users",
     initialState: {
+        userList: [],
         user: {
             id: '',
             telegram_id: '',
@@ -41,7 +49,19 @@ const usersSlice = createSlice({
             .addCase(fetchUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-            });
+            })
+            .addCase(fetchUsers.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUsers.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userList = action.payload; // Update userList with fetched data
+            })
+            .addCase(fetchUsers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
     },
 });
 
