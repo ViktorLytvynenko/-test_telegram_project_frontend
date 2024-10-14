@@ -3,6 +3,7 @@ import instance from "../../assets/instance.js";
 
 export const fetchUser = createAsyncThunk("users/fetchUser", async () => {
     const id = localStorage.getItem('id');
+    console.log(id)
     if (!id) {
         throw new Error("User ID not found in localStorage");
     }
