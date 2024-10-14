@@ -1,56 +1,19 @@
-import React, { useEffect, useState } from "react";
-import instance from "../../assets/instance.js";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {fetchUser} from "../../redux/slices/users.js";
+
 import styles from "../home/home.module.scss";
 
 const Profile = () => {
     const id = localStorage.getItem('id');
-
-    const [userData, setUserData] = useState({
-        id: '',
-        telegramId: '',
-        firstName: '',
-        username: '',
-        authDate: '',
-        hash: '',
-        phoneNumber: '',
-        createDate: '',
-    });
-
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const { user, loading, error } = useSelector((state) => state.users);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            if (!id) {
-                setError("User ID not found in localStorage");
-                setLoading(false);
-                return;
-            }
-
-            try {
-                const response = await instance.get(`user/${id}`);
-                const userData = response.data || {};
-
-                setUserData({
-                    id: userData.id || '',
-                    telegramId: userData.telegram_id || '',
-                    firstName: userData.first_name || '',
-                    username: userData.username || '',
-                    authDate: userData.auth_date || '',
-                    hash: userData.hash || '',
-                    phoneNumber: userData.phone_number || '',
-                    createDate: userData.create_date || '',
-                });
-
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, [id]);
+        if (id) {
+            dispatch(fetchUser(id));
+        }
+    }, [dispatch, id]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -67,35 +30,35 @@ const Profile = () => {
                     <tbody>
                     <tr>
                         <th>ID</th>
-                        <td>{userData.id}</td>
+                        <td>{user.id}</td>
                     </tr>
                     <tr>
                         <th>Telegram ID</th>
-                        <td>{userData.telegramId}</td>
+                        <td>{user.telegram_id}</td>
                     </tr>
                     <tr>
                         <th>First Name</th>
-                        <td>{userData.firstName}</td>
+                        <td>{user.first_name}</td>
                     </tr>
                     <tr>
                         <th>Username</th>
-                        <td>{userData.username}</td>
+                        <td>{user.username}</td>
                     </tr>
                     <tr>
                         <th>Auth Date</th>
-                        <td>{userData.authDate || 'N/A'}</td>
+                        <td>{user.auth_date}</td>
                     </tr>
                     <tr>
                         <th>Hash</th>
-                        <td>{userData.hash}</td>
+                        <td>{user.hash}</td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td>{userData.phoneNumber}</td>
+                        <td>{user.phone_number}</td>
                     </tr>
                     <tr>
                         <th>Create Date</th>
-                        <td>{userData.createDate || 'N/A'}</td>
+                        <td>{user.create_date}</td>
                     </tr>
                     </tbody>
                 </table>
