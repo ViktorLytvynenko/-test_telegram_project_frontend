@@ -1,55 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import instance from "../../assets/instance.js";
 import styles from "../home/home.module.scss";
 
 const Profile = () => {
     const id = localStorage.getItem('id');
-    const [userId, setUserId] = useState('');
-    const [telegramId, setTelegramId] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [username, setUsername] = useState('');
-    const [authDate, setAuthDate] = useState('');
-    const [hash, setHash] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [createDate, setCreateDate] = useState('');
+
+    const [userData, setUserData] = useState({
+        id: '',
+        telegramId: '',
+        firstName: '',
+        username: '',
+        authDate: '',
+        hash: '',
+        phoneNumber: '',
+        createDate: '',
+    });
+
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            if (!id) {
-                console.error("User ID not found in localStorage");
-            }
+    const fetchUser = async () => {
+        if (!id) {
+            console.error("User ID not found in localStorage");
+            setError("User ID is missing.");
+            setLoading(false);
+            return;
+        }
 
-            try {
-                const response = await instance.get(`user/${id}`);
-                if (!response.data) {
-                    console.log("User data not found.")
-                }
+        try {
+            const response = await instance.get(`user/${id}`);
+            const userData = response.data || {};
 
-                const userData = response.data;
+            setUserData({
+                id: userData.id || '',
+                telegramId: userData.telegram_id || '',
+                firstName: userData.first_name || '',
+                username: userData.username || '',
+                authDate: userData.auth_date || '',
+                hash: userData.hash || '',
+                phoneNumber: userData.phone_number || '',
+                createDate: userData.create_date || '',
+            });
 
-                setUserId(userData.id);
-                setTelegramId(userData.telegram_id);
-                setFirstName(userData.first_name);
-                setUsername(userData.username);
-                setAuthDate(userData.auth_date);
-                setHash(userData.hash);
-                setPhoneNumber(userData.phone_number);
-                setCreateDate(userData.create_date);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-            } catch (error) {
-                setError(error);
-            }
-        };
-
+    if (loading) {
         fetchUser();
-    }, [id]);
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
     }
 
-    if (userId === null) {
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (loading) {
         return <div>Loading...</div>;
     }
 
@@ -60,35 +68,35 @@ const Profile = () => {
                     <tbody>
                     <tr>
                         <th>ID</th>
-                        <td>{userId}</td>
+                        <td>{userData.id}</td>
                     </tr>
                     <tr>
                         <th>Telegram ID</th>
-                        <td>{telegramId}</td>
+                        <td>{userData.telegramId}</td>
                     </tr>
                     <tr>
                         <th>First Name</th>
-                        <td>{firstName}</td>
+                        <td>{userData.firstName}</td>
                     </tr>
                     <tr>
                         <th>Username</th>
-                        <td>{username}</td>
+                        <td>{userData.username}</td>
                     </tr>
                     <tr>
                         <th>Auth Date</th>
-                        <td>{authDate}</td>
+                        <td>{userData.authDate}</td>
                     </tr>
                     <tr>
                         <th>Hash</th>
-                        <td>{hash}</td>
+                        <td>{userData.hash}</td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td>{phoneNumber}</td>
+                        <td>{userData.phoneNumber}</td>
                     </tr>
                     <tr>
                         <th>Create Date</th>
-                        <td>{(createDate)}</td>
+                        <td>{userData.createDate}</td>
                     </tr>
                     </tbody>
                 </table>
