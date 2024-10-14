@@ -4,15 +4,15 @@ import styles from "../home/home.module.scss";
 
 const Profile = () => {
     const id = localStorage.getItem('id');
-    const [userId, setUserId] = useState(null);
-    const [telegramId, setTelegramId] = useState(null);
-    const [firstName, setFirstName] = useState(null);
-    const [username, setUsername] = useState(null);
-    const [authDate, setAuthDate] = useState(null);
-    const [hash, setHash] = useState(null);
-    const [phoneNumber, setPhoneNumber] = useState(null);
-    const [createDate, setCreateDate] = useState(null);
-    const [error, setError] = useState(null);
+    const [userId, setUserId] = useState('');
+    const [telegramId, setTelegramId] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [username, setUsername] = useState('');
+    const [authDate, setAuthDate] = useState('');
+    const [hash, setHash] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [createDate, setCreateDate] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -76,7 +76,7 @@ const Profile = () => {
                     </tr>
                     <tr>
                         <th>Auth Date</th>
-                        <td>{authDate ? new Date(authDate).toLocaleString() : 'N/A'}</td>
+                        <td>{authDate}</td>
                     </tr>
                     <tr>
                         <th>Hash</th>
@@ -88,7 +88,7 @@ const Profile = () => {
                     </tr>
                     <tr>
                         <th>Create Date</th>
-                        <td>{new Date(createDate).toLocaleString()}</td>
+                        <td>{(createDate)}</td>
                     </tr>
                     </tbody>
                 </table>
