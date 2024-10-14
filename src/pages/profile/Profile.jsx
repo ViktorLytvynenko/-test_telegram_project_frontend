@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import instance from "../../assets/instance.js";
 import styles from "../home/home.module.scss";
 
@@ -19,46 +19,45 @@ const Profile = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
-    const fetchUser = async () => {
-        if (!id) {
-            console.error("User ID not found in localStorage");
-            setError("User ID is missing.");
-            setLoading(false);
-            return;
-        }
+    useEffect(() => {
+        const fetchUser = async () => {
+            if (!id) {
+                setError("User ID not found in localStorage");
+                setLoading(false);
+                return;
+            }
 
-        try {
-            const response = await instance.get(`user/${id}`);
-            const userData = response.data || {};
+            try {
+                const response = await instance.get(`user/${id}`);
+                const userData = response.data || {};
 
-            setUserData({
-                id: userData.id || '',
-                telegramId: userData.telegram_id || '',
-                firstName: userData.first_name || '',
-                username: userData.username || '',
-                authDate: userData.auth_date || '',
-                hash: userData.hash || '',
-                phoneNumber: userData.phone_number || '',
-                createDate: userData.create_date || '',
-            });
+                setUserData({
+                    id: userData.id || '',
+                    telegramId: userData.telegram_id || '',
+                    firstName: userData.first_name || '',
+                    username: userData.username || '',
+                    authDate: userData.auth_date || '',
+                    hash: userData.hash || '',
+                    phoneNumber: userData.phone_number || '',
+                    createDate: userData.create_date || '',
+                });
 
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, [id]);
 
     if (loading) {
-        fetchUser();
+        return <div>Loading...</div>;
     }
 
     if (error) {
         return <div>Error: {error}</div>;
-    }
-
-    if (loading) {
-        return <div>Loading...</div>;
     }
 
     return (
@@ -84,7 +83,7 @@ const Profile = () => {
                     </tr>
                     <tr>
                         <th>Auth Date</th>
-                        <td>{userData.authDate}</td>
+                        <td>{userData.authDate || 'N/A'}</td>
                     </tr>
                     <tr>
                         <th>Hash</th>
@@ -96,7 +95,7 @@ const Profile = () => {
                     </tr>
                     <tr>
                         <th>Create Date</th>
-                        <td>{userData.createDate}</td>
+                        <td>{userData.createDate || 'N/A'}</td>
                     </tr>
                     </tbody>
                 </table>
