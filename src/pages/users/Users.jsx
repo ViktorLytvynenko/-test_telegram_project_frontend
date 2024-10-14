@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import axios from 'axios';
+import instance from "../../assets/instance.js";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -10,7 +10,7 @@ const Users = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('/api/admin', {
+                const response = await instance.get('/api/admin', {
                     params: {page: currentPage, limit}
                 });
                 setUsers(response.data.users);
